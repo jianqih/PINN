@@ -59,9 +59,14 @@ def compute_loss(nn, t, x, y):
     pde_loss = df(nn, t) - R * t * (1 - t)
     pde_loss = pde_loss.pow(2).mean()
 
+    boundary = torch.Tensor([0.0])
+    boundary.requires_grad = True
+    bc_loss = nn(boundary) - ft0
+    bc_loss = bc_loss.pow(2)
+
     mse_loss = torch.nn.MSELoss()(nn(x), y)
 
-    tot_loss = mse_loss + pde_loss
+    tot_loss = bc_loss + mse_loss + pde_loss
 
     return tot_loss
 
@@ -104,7 +109,7 @@ ax.scatter(x_train.detach().numpy(), y_train.detach().numpy(), label="Observatio
 ax.plot(x_eval.detach().numpy(), f_eval.detach().numpy(), label="NN solution", color="black")
 ax.plot(x_eval.detach().numpy(), numeric_solution.y.T,
         label="Analytic solution", color="magenta", alpha=0.75)
-ax.set(title="Logistic equation solved with NNs (No BC Loss)", xlabel="t", ylabel="f(t)")
+ax.set(title="Logistic equation solved with PINN", xlabel="t", ylabel="f(t)")
 ax.legend()
 # Save before showing
-fig.savefig('pinn_benchmark_no_bc.png', dpi=300, bbox_inches='tight')
+fig.savefig('pinn_benchmark.png', dpi=300, bbox_inches='tight')

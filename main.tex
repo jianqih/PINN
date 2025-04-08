@@ -192,7 +192,7 @@ $$ \mathcal{L} = \mathcal{L}_\mathrm{PDE} + \mathcal{L}_\mathrm{BC} + \mathcal{L
 \section{Baseline Results}
 In the baseline experiment, we trained the model with all components of the loss function: PDE loss, boundary condition loss, and data loss. The model architecture consisted of 3 hidden layers with 32 nodes each and Tanh activation functions.
 
-The model achieved good convergence with a final loss value of around 0.000123. The solution closely matches both the analytical solution and the training data points. As shown in Figure~\ref{fig:baseline}, the neural network successfully captures the characteristic S-shaped curve of the logistic equation, demonstrating the effectiveness of the physics-informed approach.
+The model achieved good convergence with a final loss value of around 0.0008. The solution closely matches both the analytical solution and the training data points. As shown in Figure~\ref{fig:baseline}, the neural network successfully captures the characteristic S-shaped curve of the logistic equation, demonstrating the effectiveness of the physics-informed approach.
 
 \begin{figure}[h]
     \centering
@@ -257,7 +257,7 @@ We implemented several improvements to enhance the performance of the Physics-In
 The network architecture was enhanced with the following modifications:
 \begin{itemize}
     \item Increased network depth from 3 to 4 hidden layers
-    \item Added dropout layers (rate=0.1) for regularization
+    \item Added dropout layers (rate=0.001) for regularization\footnote{Notice that the dropout rate will discount the accuracy of physical constraints it the dropout rate is too high.}
     \item Increased hidden dimension from 32 to 64 nodes
     \item Maintained Tanh activation for smooth solution approximation
 \end{itemize}
@@ -273,10 +273,10 @@ The training process was improved through:
 \subsection{Numerical Results}
 The improved model achieved significantly better performance:
 \begin{itemize}
-    \item Final total loss: 0.008321
-    \item PDE loss: 0.002466
-    \item Boundary condition loss: 0.001687
-    \item Data loss: 0.004168
+    \item Final total loss: 0.000414 (original: 0.0008)
+    \item PDE loss: 0.000309
+    \item Boundary condition loss: 0.000022
+    \item Data loss: 0.000083
 \end{itemize}
 
 \begin{figure}[h]

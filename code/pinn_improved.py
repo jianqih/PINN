@@ -26,7 +26,7 @@ domain = [0.0, 1.5] #consider interval of t
 
 # Improved neural network with more layers and dropout
 class ImprovedNN(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim, act_fn=nn.Tanh(), dropout_rate=0.1):
+    def __init__(self, input_dim, hidden_dim, output_dim, act_fn=nn.Tanh(), dropout_rate=0.001):
         super(ImprovedNN, self).__init__()
         self.layers = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
@@ -213,7 +213,7 @@ def plot_history(history, filename):
 # Main function
 def main():
     # Create improved model
-    model = ImprovedNN(1, 64, 1, dropout_rate=0.1)
+    model = ImprovedNN(1, 64, 1, dropout_rate=0.0)
     
     # Train model
     history = train_model(model, x_train, y_train, domain, n_epochs=2000, n_collocation=100)
